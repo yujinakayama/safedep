@@ -5,5 +5,6 @@ gemspec
 
 group :development, :test do
   gem 'rake'
+  gem 'rspec'
   gem 'rubocop'
 end
