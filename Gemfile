@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development, :test do
-  gem 'rake'
-  gem 'rspec'
-  gem 'rubocop'
+  gem 'rake', '~> 10.4'
+  gem 'rspec', '~> 3.1'
+  gem 'rubocop', '~> 0.28'
 end
