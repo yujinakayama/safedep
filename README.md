@@ -1,26 +1,59 @@
 # Safedep
 
-TODO: Write a gem description
+**safedep** automatically writes missing version specification for dependencies in your `Gemfile`.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'safedep'
+```bash
+$ gem install safedep
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install safedep
 
 ## Usage
 
-TODO: Write usage instructions here
+Run `safedep` command in your project's root directory,
+and then you should see the `Gemfile` is modified.
+
+Here's a `Gemfile` with dependencies without version specification:
+
+```bash
+$ cat Gemfile
+source 'https://rubygems.org'
+
+group :development, :test do
+  gem 'rake'
+  gem 'rspec'
+  gem 'rubocop'
+end
+```
+
+And they are already installed via `bundle install`:
+
+```bash
+$ egrep 'rake|rspec|rubocop ' Gemfile.lock
+    rake (10.4.2)
+    rspec (3.1.0)
+    rubocop (0.28.0)
+```
+
+Then run `safedep`:
+
+```bash
+$ safedep
+```
+
+Now the `Gemfile` should have safe version specifications in the SemVer way:
+
+```bash
+$ cat Gemfile
+source 'https://rubygems.org'
+
+group :development, :test do
+  gem 'rake', '~> 10.4'
+  gem 'rspec', '~> 3.1'
+  gem 'rubocop', '~> 0.28'
+end
+```
+
 
 ## Contributing
 
