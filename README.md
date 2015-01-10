@@ -1,3 +1,9 @@
+[![Gem Version](http://img.shields.io/gem/v/safedep.svg?style=flat)](http://badge.fury.io/rb/safedep)
+[![Dependency Status](http://img.shields.io/gemnasium/yujinakayama/safedep.svg?style=flat)](https://gemnasium.com/yujinakayama/safedep)
+[![Build Status](https://travis-ci.org/yujinakayama/safedep.svg?branch=master&style=flat)](https://travis-ci.org/yujinakayama/safedep)
+[![Coverage Status](http://img.shields.io/coveralls/yujinakayama/safedep/master.svg?style=flat)](https://coveralls.io/r/yujinakayama/safedep)
+[![Code Climate](https://img.shields.io/codeclimate/github/yujinakayama/safedep.svg?style=flat)](https://codeclimate.com/github/yujinakayama/safedep)
+
 # Safedep
 
 **safedep** automatically writes missing version specifiers for dependencies in your `Gemfile`.
