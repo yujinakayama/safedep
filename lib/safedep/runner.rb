@@ -2,6 +2,7 @@ require 'safedep/configuration'
 require 'safedep/gemspec'
 require 'safedep/gemfile'
 require 'safedep/gemfile_lock'
+require 'safedep/policy/sem_ver'
 require 'safedep/error'
 
 module Safedep
@@ -28,7 +29,7 @@ module Safedep
                       'Please run `bundle install`.'
         end
 
-        dep.version_specifier = safe_version_specifier(lockfile_dep.version)
+        dep.version_specifier = version_specifier(lockfile_dep.version)
       end
 
       gemfiles.each(&:rewrite!)
@@ -76,8 +77,8 @@ module Safedep
       !(dependency.groups & configuration.skipped_groups).empty?
     end
 
-    def safe_version_specifier(version)
-      '~> ' << version.to_s.split('.').first(2).join('.')
+    def version_specifier(version)
+      Policy::SemVer.version_specifier(version)
     end
   end
 end
