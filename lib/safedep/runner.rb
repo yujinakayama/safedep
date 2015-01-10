@@ -20,7 +20,14 @@ module Safedep
 
       dependencies.each do |dep|
         next if should_ignore?(dep)
+
         lockfile_dep = gemfile_lock.find_dependency(dep.name)
+
+        unless lockfile_dep
+          fail Error, "#{dep.name.inspect} definition is not found in #{gemfile_lock.path}. " \
+                      'Please run `bundle install`.'
+        end
+
         dep.version_specifier = safe_version_specifier(lockfile_dep.version)
       end
 

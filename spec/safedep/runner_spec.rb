@@ -31,7 +31,7 @@ module Safedep
 
     context 'when there is no Gemfile.lock' do
       it 'raises error' do
-        expect { runner.run }.to raise_error(/Gemfile.lock/)
+        expect { runner.run }.to raise_error(/Gemfile\.lock/)
       end
     end
 
@@ -55,6 +55,20 @@ module Safedep
             expect(rewritten_gemspec_source).to eq(expected_gemspec_source)
           end
         end
+      end
+    end
+
+    context 'when a dependency specified in Gemfile does not exist in Gemfile.lock', :gemfile, :lockfile do
+      let!(:lockfile) do
+        require 'safedep/gemfile_lock'
+        create_file(lockfile_path, invalid_lockfile_source)
+        Safedep::GemfileLock.new(lockfile_path)
+      end
+
+      let(:invalid_lockfile_source) { lockfile_source.gsub(/.*rspec.*\n/, '') }
+
+      it 'raises error' do
+        expect { runner.run }.to raise_error(/rspec.+Gemfile\.lock/)
       end
     end
 

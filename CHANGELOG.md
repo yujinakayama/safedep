@@ -2,6 +2,8 @@
 
 ## Development
 
+* Handle error raised when dependency definition is not found in `Gemfile.lock`.
+
 ## v0.1.1
 
 * Fix unaligned help message.
