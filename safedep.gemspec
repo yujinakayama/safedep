@@ -8,9 +8,10 @@ Gem::Specification.new do |spec|
   spec.version       = Safedep::Version.to_s
   spec.authors       = ['Yuji Nakayama']
   spec.email         = ['nkymyj@gmail.com']
-  spec.summary       = 'TODO: Write a short summary. Required.'
-  spec.description   = 'TODO: Write a longer description. Optional.'
-  spec.homepage      = ''
+  spec.summary       = 'Make your Gemfile safe by adding dependency version specifiers ' \
+                       'automatically.'
+  spec.description   = spec.summary
+  spec.homepage      = 'https://github.com/yujinakayama/safedep'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
