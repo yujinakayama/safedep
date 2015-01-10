@@ -2,6 +2,8 @@
 
 ## Development
 
+## v0.1.1
+
 * Fix unaligned help message.
 
 ## v0.1.0
