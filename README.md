@@ -8,6 +8,8 @@
 
 **safedep** automatically writes missing version specifiers for dependencies in your `Gemfile`.
 
+* [Using >= Considered Harmful (or, What’s Wrong With >=) « Katz Got Your Tongue?](http://yehudakatz.com/2010/08/21/using-considered-harmful-or-whats-wrong-with/)
+
 ## Example
 
 Here's a `Gemfile` with dependencies without version specifier:
