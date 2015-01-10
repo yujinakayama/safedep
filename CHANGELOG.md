@@ -2,6 +2,8 @@
 
 ## Development
 
+## v0.1.0
+
 * Add `--without` option for skipping arbitrary groups.
 * Abort processing if `Gemfile` or `Gemfile.lock` does not exist.
 
