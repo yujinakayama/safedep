@@ -16,8 +16,10 @@ $ gem install safedep
 
 ## Usage
 
-Run `safedep` command in your project's root directory,
+Just run `safedep` command in your project's root directory,
 and then you should see the `Gemfile` is modified.
+
+## Example
 
 Here's a `Gemfile` with dependencies without version specifier:
 
@@ -35,7 +37,7 @@ end
 And they have already been installed via `bundle install`:
 
 ```bash
-$ egrep 'rake|rspec|rubocop ' Gemfile.lock
+$ egrep '(rake|rspec|rubocop) ' Gemfile.lock
     rake (10.4.2)
     rspec (3.1.0)
     rubocop (0.28.0)
@@ -50,14 +52,22 @@ $ safedep
 Now the `Gemfile` should have safe version specifiers in the SemVer way:
 
 ```bash
-$ cat Gemfile
-source 'https://rubygems.org'
+$ git diff
+diff --git a/Gemfile b/Gemfile
+index 5ff2c3c..488dd41 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -1,7 +1,7 @@
+ source 'https://rubygems.org'
 
-group :development, :test do
-  gem 'rake', '~> 10.4'
-  gem 'rspec', '~> 3.1'
-  gem 'rubocop', '~> 0.28'
-end
+ group :development, :test do
+-  gem 'rake'
+-  gem 'rspec'
+-  gem 'rubocop'
++  gem 'rake', '~> 10.4'
++  gem 'rspec', '~> 3.1'
++  gem 'rubocop', '~> 0.28'
+ end
 ```
 
 ## Compatibility
