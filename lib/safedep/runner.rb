@@ -4,12 +4,15 @@ require 'safedep/gemfile_lock'
 
 module Safedep
   class Runner
+    GEMFILE_PATH = 'Gemfile'.freeze
+    GEMFILE_LOCK_PATH = 'Gemfile.lock'.freeze
+
     def self.run
       new.run
     end
 
     def run
-      dependencies = gemfiles.map(&:dependencies).reduce(:+)
+      validate!
 
       dependencies.each do |dep|
         next if dep.version_specifier
@@ -18,6 +21,15 @@ module Safedep
       end
 
       gemfiles.each(&:rewrite!)
+    end
+
+    def validate!
+      gemfile_lock
+      gemfile
+    end
+
+    def dependencies
+      @dependencies ||= gemfiles.map(&:dependencies).reduce(:+)
     end
 
     def gemfiles
@@ -32,11 +44,20 @@ module Safedep
     end
 
     def gemfile
-      @gemfile ||= Gemfile.new('Gemfile')
+      @gemfile ||= begin
+        fail "#{GEMFILE_PATH} is not found." unless File.exist?(GEMFILE_PATH)
+        Gemfile.new(GEMFILE_PATH)
+      end
     end
 
     def gemfile_lock
-      @gemfile_lock ||= GemfileLock.new('Gemfile.lock')
+      @gemfile_lock ||= begin
+        unless File.exist?(GEMFILE_LOCK_PATH)
+          fail "#{GEMFILE_LOCK_PATH} is not found. Please run `bundle install`."
+        end
+
+        GemfileLock.new(GEMFILE_LOCK_PATH)
+      end
     end
 
     def safe_version_specifier(version)
