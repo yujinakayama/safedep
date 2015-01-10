@@ -2,6 +2,8 @@
 
 ## Development
 
+## v0.1.2
+
 * Handle error raised when dependency definition is not found in `Gemfile.lock`.
 
 ## v0.1.1
