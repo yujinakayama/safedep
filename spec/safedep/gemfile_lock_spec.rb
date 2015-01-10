@@ -63,6 +63,13 @@ module Safedep
         safedep!
     END
 
+    describe '#find_dependency' do
+      it 'returns the dependency matching the passed name' do
+        dependency = lockfile.find_dependency('rspec')
+        expect(dependency.name).to eq('rspec')
+      end
+    end
+
     describe '#dependencies' do
       let(:dep_names) { lockfile.dependencies.map(&:name) }
 

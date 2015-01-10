@@ -24,6 +24,13 @@ module Safedep
       end
     END
 
+    describe '#find_dependency' do
+      it 'returns the dependency matching the passed name' do
+        dependency = gemfile.find_dependency('rspec')
+        expect(dependency.name).to eq('rspec')
+      end
+    end
+
     describe '#dependencies' do
       it 'returns an array of the dependencies' do
         expect(gemfile.dependencies.size).to eq(3)
