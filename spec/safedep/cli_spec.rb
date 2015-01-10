@@ -36,7 +36,7 @@ module Safedep
 
       context 'when unknown error is raised' do
         before do
-          allow(Runner).to receive(:run).and_raise('foo')
+          allow_any_instance_of(Runner).to receive(:run).and_raise('foo')
         end
 
         it 'does not rescue the error' do
