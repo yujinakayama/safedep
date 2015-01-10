@@ -9,7 +9,7 @@ module Safedep
     end
 
     def run
-      dependencies = gemspec.dependencies + gemfile.dependencies
+      dependencies = gemfiles.map(&:dependencies).reduce(:+)
 
       dependencies.each do |dep|
         next if dep.version_specifier
@@ -17,13 +17,17 @@ module Safedep
         dep.version_specifier = safe_version_specifier(lockfile_dep.version)
       end
 
-      [gemspec, gemfile].each(&:rewrite!)
+      gemfiles.each(&:rewrite!)
+    end
+
+    def gemfiles
+      @gemfiles ||= [gemspec, gemfile].compact
     end
 
     def gemspec
       @gemspec ||= begin
         path = Dir['*.gemspec'].first
-        Gemspec.new(path)
+        Gemspec.new(path) if path
       end
     end
 
