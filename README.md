@@ -60,11 +60,12 @@ group :development, :test do
 end
 ```
 
+## Compatibility
 
-## Contributing
+Tested on MRI 1.9.3, 2.0, 2.1, 2.2 and JRuby in 1.9 mode.
 
-1. Fork it ( https://github.com/yujinakayama/safedep/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+## License
+
+Copyright (c) 2015 Yuji Nakayama
+
+See the [LICENSE.txt](LICENSE.txt) for details.
