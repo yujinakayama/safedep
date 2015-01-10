@@ -14,16 +14,6 @@
 $ gem install safedep
 ```
 
-## Usage
-
-Just run `safedep` command in your project's root directory,
-and then you should see the `Gemfile` is modified.
-
-```bash
-$ cd your-project
-$ safedep
-```
-
 ## Example
 
 Here's a `Gemfile` with dependencies without version specifier:
@@ -73,6 +63,26 @@ index 5ff2c3c..488dd41 100644
 +  gem 'rspec', '~> 3.1'
 +  gem 'rubocop', '~> 0.28'
  end
+```
+
+## Usage
+
+Just run `safedep` command in your project's root directory,
+and then you should see the `Gemfile` is modified.
+
+```bash
+$ cd your-project
+$ safedep
+```
+
+## Options
+
+### `--without`
+
+Specify groups to skip modification as comma-separated list.
+
+```bash
+$ safedep --without development,test
 ```
 
 ## Compatibility
