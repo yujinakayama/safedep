@@ -39,7 +39,7 @@ module Safedep
     def parser
       @parser ||= begin
         banner = "Usage: #{command_name} [options]\n\n"
-        summary_width = 20 # Default
+        summary_width = 32 # Default
         indentation = ' ' * 2
         ::OptionParser.new(banner, summary_width, indentation)
       end

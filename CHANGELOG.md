@@ -2,6 +2,8 @@
 
 ## Development
 
+* Fix unaligned help message.
+
 ## v0.1.0
 
 * Add `--without` option for skipping arbitrary groups.
