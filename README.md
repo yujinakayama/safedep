@@ -8,12 +8,6 @@
 
 **safedep** automatically writes missing version specifiers for dependencies in your `Gemfile`.
 
-## Installation
-
-```bash
-$ gem install safedep
-```
-
 ## Example
 
 Here's a `Gemfile` with dependencies without version specifier:
@@ -63,6 +57,12 @@ index 5ff2c3c..488dd41 100644
 +  gem 'rspec', '~> 3.1'
 +  gem 'rubocop', '~> 0.28'
  end
+```
+
+## Installation
+
+```bash
+$ gem install safedep
 ```
 
 ## Usage
