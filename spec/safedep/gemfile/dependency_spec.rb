@@ -26,6 +26,61 @@ module Safedep
         end
       end
 
+      describe '#groups' do
+        subject { dependency.groups }
+
+        let(:gemfile_source) { <<-END.strip_indent }
+          source 'https://rubygems.org'
+
+          gem 'parser'
+
+          group :development, :test do
+            gem 'rake'
+          end
+
+          group :development do
+            gem 'guard'
+            gem 'rubocop', group: :test
+          end
+
+          group 'development' do
+            gem 'fuubar'
+          end
+
+          gem 'rspec', group: [:test, :development]
+        END
+
+        context 'when the dependency is specified in top level' do
+          let(:dependency) { gemfile.find_dependency('parser') }
+          it { should be_empty }
+        end
+
+        context 'when the dependency is specified in :development block' do
+          let(:dependency) { gemfile.find_dependency('guard') }
+          it { should eq([:development]) }
+        end
+
+        context 'when the dependency is specified in "development" block' do
+          let(:dependency) { gemfile.find_dependency('fuubar') }
+          it { should eq([:development]) }
+        end
+
+        context 'when the dependency is specified in :development and :test group' do
+          let(:dependency) { gemfile.find_dependency('rake') }
+          it { should eq([:development, :test]) }
+        end
+
+        context 'when the dependency is specified with group: [:test, :development] option' do
+          let(:dependency) { gemfile.find_dependency('rspec') }
+          it { should eq([:test, :development]) }
+        end
+
+        context 'when the dependency is specified with group: :test option in :development group' do
+          let(:dependency) { gemfile.find_dependency('rubocop') }
+          it { should eq([:development, :test]) }
+        end
+      end
+
       describe '#version_specifier' do
         subject(:version_specifier) { dependency.version_specifier }
 

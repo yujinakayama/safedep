@@ -23,6 +23,25 @@ module Safedep
         end
       end
 
+      describe '#groups' do
+        subject { dependency.groups }
+
+        context 'when the dependency is specified via #add_dependency' do
+          let(:dependency) { gemspec.find_dependency('parser') }
+          it { should be_empty }
+        end
+
+        context 'when the dependency is specified via #add_runtime_dependency' do
+          let(:dependency) { gemspec.find_dependency('astrolabe') }
+          it { should be_empty }
+        end
+
+        context 'when the dependency is specified via #add_runtime_dependency' do
+          let(:dependency) { gemspec.find_dependency('rspec') }
+          it { should eq([:development]) }
+        end
+      end
+
       describe '#version_specifier' do
         subject(:version_specifier) { dependency.version_specifier }
 

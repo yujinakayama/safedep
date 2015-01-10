@@ -9,7 +9,7 @@ module Safedep
     end
 
     def self.method_names
-      fail NotImplemenetedError
+      fail NotImplementedError
     end
 
     def initialize(node, rewriter)
@@ -20,6 +20,10 @@ module Safedep
 
     def name
       name_node.children.first
+    end
+
+    def groups
+      fail NotImplementedError
     end
 
     def version_specifier
@@ -37,6 +41,10 @@ module Safedep
 
     private
 
+    def method_name
+      node.children[1]
+    end
+
     def name_node
       node.children[2]
     end
@@ -46,6 +54,10 @@ module Safedep
       version_node = node.children[3]
       return @version_specifier_node = nil if version_node.nil? || !version_node.str_type?
       @version_specifier_node = version_node
+    end
+
+    def options_node
+      node.children[3..-1].find(&:hash_type?)
     end
 
     def content_range_of_str_node(str_node)

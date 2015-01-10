@@ -8,6 +8,15 @@ module Safedep
       def self.method_names
         METHOD_NAMES
       end
+
+      def groups
+        case method_name
+        when :add_development_dependency
+          [:development]
+        else
+          []
+        end
+      end
     end
   end
 end
