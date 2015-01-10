@@ -1,6 +1,6 @@
 # Safedep
 
-**safedep** automatically writes missing version specification for dependencies in your `Gemfile`.
+**safedep** automatically writes missing version specifiers for dependencies in your `Gemfile`.
 
 ## Installation
 
@@ -13,7 +13,7 @@ $ gem install safedep
 Run `safedep` command in your project's root directory,
 and then you should see the `Gemfile` is modified.
 
-Here's a `Gemfile` with dependencies without version specification:
+Here's a `Gemfile` with dependencies without version specifier:
 
 ```bash
 $ cat Gemfile
@@ -26,7 +26,7 @@ group :development, :test do
 end
 ```
 
-And they are already installed via `bundle install`:
+And they have already been installed via `bundle install`:
 
 ```bash
 $ egrep 'rake|rspec|rubocop ' Gemfile.lock
@@ -41,7 +41,7 @@ Then run `safedep`:
 $ safedep
 ```
 
-Now the `Gemfile` should have safe version specifications in the SemVer way:
+Now the `Gemfile` should have safe version specifiers in the SemVer way:
 
 ```bash
 $ cat Gemfile
@@ -57,7 +57,7 @@ end
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/safedep/fork )
+1. Fork it ( https://github.com/yujinakayama/safedep/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
