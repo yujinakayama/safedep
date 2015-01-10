@@ -1,4 +1,5 @@
 require 'bundler'
+require 'ostruct'
 
 module Safedep
   class GemfileLock
@@ -13,7 +14,7 @@ module Safedep
     end
 
     def dependencies
-      lockfile.specs
+      @dependencies ||= lockfile.specs + [bundler_dependency]
     end
 
     private
@@ -23,6 +24,10 @@ module Safedep
         content = File.read(path)
         Bundler::LockfileParser.new(content)
       end
+    end
+
+    def bundler_dependency
+      OpenStruct.new(name: 'bundler', version: Bundler::VERSION)
     end
   end
 end
