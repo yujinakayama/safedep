@@ -19,6 +19,11 @@ $ gem install safedep
 Just run `safedep` command in your project's root directory,
 and then you should see the `Gemfile` is modified.
 
+```bash
+$ cd your-project
+$ safedep
+```
+
 ## Example
 
 Here's a `Gemfile` with dependencies without version specifier:
