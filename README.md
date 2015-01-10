@@ -10,6 +10,8 @@
 
 * [Using >= Considered Harmful (or, What’s Wrong With >=) « Katz Got Your Tongue?](http://yehudakatz.com/2010/08/21/using-considered-harmful-or-whats-wrong-with/)
 
+Version specifier with `>=` is considered harmful, then dependencies without version speicifier must be super harmful. :)
+
 ## Example
 
 Here's a `Gemfile` with dependencies without version specifier:
