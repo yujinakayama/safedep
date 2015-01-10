@@ -8,3 +8,5 @@ RSpec::Core::RakeTask.new(:spec) do |task|
 end
 
 RuboCop::RakeTask.new(:style)
+
+task ci: [:spec, :style]

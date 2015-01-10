@@ -8,4 +8,9 @@ group :development, :test do
   gem 'rspec', '~> 3.1'
   gem 'rubocop', '~> 0.28'
   gem 'powerpack', '~> 0.0'
+  gem 'simplecov', '~> 0.9'
+end
+
+group :test do
+  gem 'coveralls', '~> 0.7'
 end
