@@ -1,13 +1,13 @@
 require 'safedep/abstract_gemfile'
 
 module Safedep
-  class Gemfile < AbstractGemfile
-    require 'safedep/gemfile/dependency'
+  class Gemspec < AbstractGemfile
+    require 'safedep/gemspec/dependency'
 
     private
 
     def dependency_class
-      Gemfile::Dependency
+      Gemspec::Dependency
     end
   end
 end

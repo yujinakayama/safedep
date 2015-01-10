@@ -58,6 +58,8 @@ module Safedep
       end
 
       describe '#version_specifier=' do
+        let(:rewritten_source) { File.read(gemfile.path) }
+
         context 'when the dependency has version specifier' do
           let(:dependency) { gemfile.find_dependency('rspec') }
 
@@ -76,7 +78,7 @@ module Safedep
           it 'replaces the existing specifier with the passed specifier' do
             dependency.version_specifier = '> 4.0'
             gemfile.rewrite!
-            expect(File.read(gemfile.path)).to eq(expected_source)
+            expect(rewritten_source).to eq(expected_source)
           end
         end
 
@@ -99,7 +101,7 @@ module Safedep
             it 'adds the passed specifier' do
               dependency.version_specifier = '~> 10.1'
               gemfile.rewrite!
-              expect(File.read(gemfile.path)).to eq(expected_source)
+              expect(rewritten_source).to eq(expected_source)
             end
           end
 
@@ -121,7 +123,7 @@ module Safedep
             it 'adds the passed specifier' do
               dependency.version_specifier = '~> 0.28'
               gemfile.rewrite!
-              expect(File.read(gemfile.path)).to eq(expected_source)
+              expect(rewritten_source).to eq(expected_source)
             end
           end
         end

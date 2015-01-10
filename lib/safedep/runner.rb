@@ -1,3 +1,4 @@
+require 'safedep/gemspec'
 require 'safedep/gemfile'
 require 'safedep/gemfile_lock'
 
@@ -8,13 +9,22 @@ module Safedep
     end
 
     def run
-      gemfile.dependencies.each do |gemfile_dep|
-        next if gemfile_dep.version_specifier
-        lockfile_dep = gemfile_lock.find_dependency(gemfile_dep.name)
-        gemfile_dep.version_specifier = safe_version_specifier(lockfile_dep.version)
+      dependencies = gemspec.dependencies + gemfile.dependencies
+
+      dependencies.each do |dep|
+        next if dep.version_specifier
+        lockfile_dep = gemfile_lock.find_dependency(dep.name)
+        dep.version_specifier = safe_version_specifier(lockfile_dep.version)
       end
 
-      gemfile.rewrite!
+      [gemspec, gemfile].each(&:rewrite!)
+    end
+
+    def gemspec
+      @gemspec ||= begin
+        path = Dir['*.gemspec'].first
+        Gemspec.new(path)
+      end
     end
 
     def gemfile
