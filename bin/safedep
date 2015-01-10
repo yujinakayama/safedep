@@ -3,4 +3,5 @@
 $LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
 require 'safedep/cli'
 
-Safedep::CLI.run
+result = Safedep::CLI.run
+exit(result ? 0 : 1)

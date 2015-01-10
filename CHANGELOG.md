@@ -2,6 +2,8 @@
 
 ## Development
 
+* Abort processing if `Gemfile` or `Gemfile.lock` does not exist.
+
 ## v0.0.2
 
 * Fix an error when a `Gemfile` includes `bundler` dependency without version specifier.

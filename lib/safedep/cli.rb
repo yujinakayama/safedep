@@ -8,9 +8,13 @@ module Safedep
     end
 
     def run(args)
-      OptionParser.new.parse(args)
+      OptionParser.parse(args)
       Runner.run
       puts 'Done.'
+      true
+    rescue Safedep::Error => error
+      warn error.message
+      false
     end
   end
 end

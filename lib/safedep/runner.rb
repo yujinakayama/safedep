@@ -1,6 +1,7 @@
 require 'safedep/gemspec'
 require 'safedep/gemfile'
 require 'safedep/gemfile_lock'
+require 'safedep/error'
 
 module Safedep
   class Runner
@@ -45,7 +46,7 @@ module Safedep
 
     def gemfile
       @gemfile ||= begin
-        fail "#{GEMFILE_PATH} is not found." unless File.exist?(GEMFILE_PATH)
+        fail Error, "#{GEMFILE_PATH} is not found." unless File.exist?(GEMFILE_PATH)
         Gemfile.new(GEMFILE_PATH)
       end
     end
@@ -53,7 +54,7 @@ module Safedep
     def gemfile_lock
       @gemfile_lock ||= begin
         unless File.exist?(GEMFILE_LOCK_PATH)
-          fail "#{GEMFILE_LOCK_PATH} is not found. Please run `bundle install`."
+          fail Error, "#{GEMFILE_LOCK_PATH} is not found. Please run `bundle install`."
         end
 
         GemfileLock.new(GEMFILE_LOCK_PATH)
