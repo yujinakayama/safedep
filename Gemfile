@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in safedep.gemspec
 gemspec
 
 group :development, :test do
@@ -9,6 +8,12 @@ group :development, :test do
   gem 'rubocop', '~> 0.28'
   gem 'powerpack', '~> 0.0'
   gem 'simplecov', '~> 0.9'
+end
+
+group :development do
+  gem 'guard-rspec', '~> 4.5'
+  gem 'guard-rubocop', '~> 1.2'
+  gem 'fuubar', '~> 2.0'
 end
 
 group :test do
