@@ -1,6 +1,5 @@
-require 'astrolabe/builder'
-require 'bundler'
-require 'parser/current'
+require 'safedep/gemfile'
+require 'safedep/gemfile_lock'
 
 module Safedep
   class Runner
@@ -9,53 +8,25 @@ module Safedep
     end
 
     def run
-      version_missing_gem_nodes.each do |send_node|
-        _receiver_node, _message, gem_name_node, = *send_node
-        gem_name, = *gem_name_node
-
-        current_gem_version = gem_version_in_lockfile(gem_name)
-        version_specification = safe_version_specification(current_gem_version)
-        gemfile_rewriter.insert_after(gem_name_node.loc.expression, ", '#{version_specification}'")
+      gemfile.dependencies.each do |gemfile_dep|
+        next if gemfile_dep.version_specifier
+        lockfile_dep = gemfile_lock.find_dependency(gemfile_dep.name)
+        gemfile_dep.version_specifier = safe_version_specifier(lockfile_dep.version)
       end
 
-      File.write('Gemfile', gemfile_rewriter.process)
+      gemfile.rewrite!
     end
 
-    def version_missing_gem_nodes
-      @version_missing_gem_nodes ||= gemfile_ast.each_node(:send).select do |send_node|
-        _receiver_node, message, gem_name_node, version_node, = *send_node
-        next false unless message == :gem
-        next false unless gem_name_node.str_type?
-        version_node.nil?
-      end
+    def gemfile
+      @gemfile ||= Gemfile.new('Gemfile')
     end
 
-    def gemfile_ast
-      @gemfile_ast ||= begin
-        builder = Astrolabe::Builder.new
-        parser = Parser::CurrentRuby.new(builder)
-        parser.parse(gemfile_source_buffer)
-      end
+    def gemfile_lock
+      @gemfile_lock ||= GemfileLock.new('Gemfile.lock')
     end
 
-    def gemfile_rewriter
-      @gemfile_rewriter ||= Parser::Source::Rewriter.new(gemfile_source_buffer)
-    end
-
-    def gemfile_source_buffer
-      @gemfile_source_buffer ||= Parser::Source::Buffer.new('Gemfile').read
-    end
-
-    def lockfile
-      @lockfile ||= Bundler::LockfileParser.new(File.read('Gemfile.lock'))
-    end
-
-    def gem_version_in_lockfile(gem_name)
-      lockfile.specs.find { |spec| spec.name == gem_name }.version
-    end
-
-    def safe_version_specification(gem_version)
-      '~> ' + gem_version.to_s.split('.').first(2).join('.')
+    def safe_version_specifier(version)
+      '~> ' << version.to_s.split('.').first(2).join('.')
     end
   end
 end
