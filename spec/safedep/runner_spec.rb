@@ -5,6 +5,10 @@ module Safedep
     include FileHelper
     include_context 'isolated environment'
 
+    subject(:runner) { Runner.new }
+
+    let(:configuration) { runner.configuration }
+
     let(:expected_gemfile_source) { <<-END.strip_indent }
       source 'https://rubygems.org'
 
@@ -27,30 +31,48 @@ module Safedep
 
     context 'when there is no Gemfile.lock' do
       it 'raises error' do
-        expect { Runner.run }.to raise_error(/Gemfile.lock/)
+        expect { runner.run }.to raise_error(/Gemfile.lock/)
       end
     end
 
     context 'when there is Gemfile.lock', :lockfile do
       context 'but no Gemfile' do
         it 'raises error' do
-          expect { Runner.run }.to raise_error(/Gemfile /)
+          expect { runner.run }.to raise_error(/Gemfile /)
         end
       end
 
       context 'and Gemfile', :gemfile do
         it 'rewrites the Gemfile' do
-          Runner.run
+          runner.run
           expect(rewritten_gemfile_source).to eq(expected_gemfile_source)
         end
 
         context 'and gemspec', :gemspec do
           it 'rewrites both the Gemfile and the gemspec' do
-            Runner.run
+            runner.run
             expect(rewritten_gemfile_source).to eq(expected_gemfile_source)
             expect(rewritten_gemspec_source).to eq(expected_gemspec_source)
           end
         end
+      end
+    end
+
+    context 'when Configuration#skipped_groups is specified', :gemspec, :gemfile, :lockfile do
+      before do
+        configuration.skipped_groups = ['development']
+      end
+
+      let(:development_dependencies) do
+        runner.dependencies.select { |dep| dep.groups.include?(:development) }
+      end
+
+      it 'does not modify dependencies that belong to any of the groups' do
+        development_dependencies.each do |dep|
+          expect(dep).not_to receive(:version_specifier=)
+        end
+
+        runner.run
       end
     end
   end

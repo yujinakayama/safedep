@@ -1,3 +1,4 @@
+require 'safedep/configuration'
 require 'safedep/gemspec'
 require 'safedep/gemfile'
 require 'safedep/gemfile_lock'
@@ -8,15 +9,17 @@ module Safedep
     GEMFILE_PATH = 'Gemfile'.freeze
     GEMFILE_LOCK_PATH = 'Gemfile.lock'.freeze
 
-    def self.run
-      new.run
+    attr_reader :configuration
+
+    def initialize(configuration = Configuration.new)
+      @configuration = configuration
     end
 
     def run
       validate!
 
       dependencies.each do |dep|
-        next if dep.version_specifier
+        next if should_ignore?(dep)
         lockfile_dep = gemfile_lock.find_dependency(dep.name)
         dep.version_specifier = safe_version_specifier(lockfile_dep.version)
       end
@@ -59,6 +62,11 @@ module Safedep
 
         GemfileLock.new(GEMFILE_LOCK_PATH)
       end
+    end
+
+    def should_ignore?(dependency)
+      return true if dependency.version_specifier
+      !(dependency.groups & configuration.skipped_groups).empty?
     end
 
     def safe_version_specifier(version)

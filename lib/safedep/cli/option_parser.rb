@@ -1,13 +1,13 @@
 require 'optparse'
+require 'safedep/configuration'
 require 'safedep/version'
 
 module Safedep
   class OptionParser
-    def self.parse(args)
-      new.parse(args)
-    end
+    attr_reader :configuration
 
-    def initialize
+    def initialize(configuration = Configuration.new)
+      @configuration = configuration
       setup
     end
 
@@ -20,6 +20,10 @@ module Safedep
     private
 
     def setup
+      define_option('--without GROUP[,GROUP...]') do |arg|
+        configuration.skipped_groups = arg.split(',')
+      end
+
       define_option('--version') do
         puts Version.to_s
         exit
@@ -27,7 +31,7 @@ module Safedep
     end
 
     def define_option(*options, &block)
-      long_option = options.find { |option| option.start_with?('--') }
+      long_option = options.find { |option| option.start_with?('--') }.split(' ').first
       description_lines = descriptions[long_option]
       parser.on(*options, *description_lines, &block)
     end
@@ -35,7 +39,7 @@ module Safedep
     def parser
       @parser ||= begin
         banner = "Usage: #{command_name} [options]\n\n"
-        summary_width = 32 # Default
+        summary_width = 20 # Default
         indentation = ' ' * 2
         ::OptionParser.new(banner, summary_width, indentation)
       end
@@ -47,6 +51,9 @@ module Safedep
 
     def descriptions
       @descriptions ||= {
+        '--without' => [
+          'Specify groups to skip modification as comma-separated list.'
+        ],
         '--version' => [
           "Show #{command_name} version."
         ]
