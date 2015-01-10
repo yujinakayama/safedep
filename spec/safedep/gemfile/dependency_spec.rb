@@ -2,18 +2,11 @@ require 'safedep/gemfile'
 
 module Safedep
   class Gemfile
-    describe Dependency do
+    describe Dependency, :gemfile do
       include FileHelper
       include_context 'isolated environment'
 
-      let(:gemfile) do
-        create_file(path, source)
-        Gemfile.new(path)
-      end
-
-      let(:path) { 'Gemfile' }
-
-      let(:source) { <<-END.strip_indent }
+      let(:gemfile_source) { <<-END.strip_indent }
         source 'https://rubygems.org'
 
         gemspec

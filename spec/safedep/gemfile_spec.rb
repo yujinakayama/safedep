@@ -1,28 +1,9 @@
 require 'safedep/gemfile'
 
 module Safedep
-  describe Gemfile do
+  describe Gemfile, :gemfile do
     include FileHelper
     include_context 'isolated environment'
-
-    subject(:gemfile) do
-      create_file(path, source)
-      Gemfile.new(path)
-    end
-
-    let(:path) { 'Gemfile' }
-
-    let(:source) { <<-END.strip_indent }
-      source 'https://rubygems.org'
-
-      gemspec
-
-      group :development, :test do
-        gem 'rake'
-        gem 'rspec', '~> 3.1'
-        gem 'rubocop', '~> 0.28'
-      end
-    END
 
     describe '#find_dependency' do
       it 'returns the dependency matching the passed name' do

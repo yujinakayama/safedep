@@ -2,18 +2,11 @@ require 'safedep/gemspec'
 
 module Safedep
   class Gemspec
-    describe Dependency do
+    describe Dependency, :gemspec do
       include FileHelper
       include_context 'isolated environment'
 
-      let(:gemspec) do
-        create_file(path, source)
-        Gemspec.new(path)
-      end
-
-      let(:path) { 'example.gemspec' }
-
-      let(:source) { <<-END.strip_indent }
+      let(:gemspec_source) { <<-END.strip_indent }
         Gem::Specification.new do |spec|
           spec.name = 'safedep'
           spec.add_dependency 'parser'
