@@ -16,6 +16,10 @@ module Safedep
           gem 'rspec', '~> 3.1'
           gem 'rubocop', require: false
         end
+
+        group :development do
+          gem 'guard', '>= 2.1', '< 3.0'
+        end
       END
 
       describe '#name' do
@@ -81,34 +85,42 @@ module Safedep
         end
       end
 
-      describe '#version_specifier' do
-        subject(:version_specifier) { dependency.version_specifier }
+      describe '#version_specifiers' do
+        subject(:version_specifiers) { dependency.version_specifiers }
 
-        context 'when the dependency has version specifier' do
+        context 'when the dependency has a version specifier' do
           let(:dependency) { gemfile.find_dependency('rspec') }
 
           it 'returns the specifier' do
-            expect(version_specifier).to eq('~> 3.1')
+            expect(version_specifiers).to eq(['~> 3.1'])
+          end
+        end
+
+        context 'when the dependency has multiple specifiers' do
+          let(:dependency) { gemfile.find_dependency('guard') }
+
+          it 'returns the specifiers' do
+            expect(version_specifiers).to eq(['>= 2.1', '< 3.0'])
           end
         end
 
         context 'when the dependency has no version specifier' do
           context 'and has no options' do
             let(:dependency) { gemfile.find_dependency('rake') }
-            it { should be_nil }
+            it { should be_empty }
           end
 
           context 'but has options' do
             let(:dependency) { gemfile.find_dependency('rubocop') }
-            it { should be_nil }
+            it { should be_empty }
           end
         end
       end
 
-      describe '#version_specifier=' do
+      describe '#version_specifiers=' do
         let(:rewritten_source) { File.read(gemfile.path) }
 
-        context 'when the dependency has version specifier' do
+        context 'when the dependency has a version specifier' do
           let(:dependency) { gemfile.find_dependency('rspec') }
 
           let(:expected_source) { <<-END.strip_indent }
@@ -121,10 +133,14 @@ module Safedep
               gem 'rspec', '> 4.0'
               gem 'rubocop', require: false
             end
+
+            group :development do
+              gem 'guard', '>= 2.1', '< 3.0'
+            end
           END
 
           it 'replaces the existing specifier with the passed specifier' do
-            dependency.version_specifier = '> 4.0'
+            dependency.version_specifiers = '> 4.0'
             gemfile.rewrite!
             expect(rewritten_source).to eq(expected_source)
           end
@@ -144,10 +160,14 @@ module Safedep
                 gem 'rspec', '~> 3.1'
                 gem 'rubocop', require: false
               end
+
+              group :development do
+                gem 'guard', '>= 2.1', '< 3.0'
+              end
             END
 
             it 'adds the passed specifier' do
-              dependency.version_specifier = '~> 10.1'
+              dependency.version_specifiers = '~> 10.1'
               gemfile.rewrite!
               expect(rewritten_source).to eq(expected_source)
             end
@@ -166,13 +186,43 @@ module Safedep
                 gem 'rspec', '~> 3.1'
                 gem 'rubocop', '~> 0.28', require: false
               end
+
+              group :development do
+                gem 'guard', '>= 2.1', '< 3.0'
+              end
             END
 
             it 'adds the passed specifier' do
-              dependency.version_specifier = '~> 0.28'
+              dependency.version_specifiers = '~> 0.28'
               gemfile.rewrite!
               expect(rewritten_source).to eq(expected_source)
             end
+          end
+        end
+
+        context 'when multiple specifiers are passed' do
+          let(:dependency) { gemfile.find_dependency('rspec') }
+
+          let(:expected_source) { <<-END.strip_indent }
+            source 'https://rubygems.org'
+
+            gemspec
+
+            group :development, :test do
+              gem 'rake'
+              gem 'rspec', '>= 4.0', '< 5.0'
+              gem 'rubocop', require: false
+            end
+
+            group :development do
+              gem 'guard', '>= 2.1', '< 3.0'
+            end
+          END
+
+          it 'replaces the existing specifier with the passed specifiers' do
+            dependency.version_specifiers = ['>= 4.0', '< 5.0']
+            gemfile.rewrite!
+            expect(rewritten_source).to eq(expected_source)
           end
         end
       end

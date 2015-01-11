@@ -56,3 +56,6 @@ GuardClause:
 
 Documentation:
   Enabled: false
+
+SingleLineBlockParams:
+  Enabled: false

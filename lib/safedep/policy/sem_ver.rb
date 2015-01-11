@@ -3,8 +3,8 @@ module Safedep
     class SemVer
       attr_reader :version, :major, :minor, :patch, :suffix
 
-      def self.version_specifier(version)
-        new(version).version_specifier
+      def self.version_specifiers(version)
+        new(version).version_specifiers
       end
 
       def initialize(version)
@@ -17,12 +17,12 @@ module Safedep
         decompose_version
       end
 
-      def version_specifier
+      def version_specifiers
         specifier = '~> ' + [major, minor].join('.')
         requirement = Gem::Requirement.new(specifier)
 
         if requirement.satisfied_by?(version)
-          specifier
+          [specifier]
         else
           nil
         end

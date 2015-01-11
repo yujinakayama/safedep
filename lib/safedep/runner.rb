@@ -29,7 +29,7 @@ module Safedep
                       'Please run `bundle install`.'
         end
 
-        dep.version_specifier = version_specifier(lockfile_dep.version)
+        dep.version_specifiers = version_specifiers(lockfile_dep.version)
       end
 
       gemfiles.each(&:rewrite!)
@@ -73,12 +73,12 @@ module Safedep
     end
 
     def should_ignore?(dependency)
-      return true if dependency.version_specifier
+      return true unless dependency.version_specifiers.empty?
       !(dependency.groups & configuration.skipped_groups).empty?
     end
 
-    def version_specifier(version)
-      Policy::SemVer.version_specifier(version)
+    def version_specifiers(version)
+      Policy::SemVer.version_specifiers(version)
     end
   end
 end

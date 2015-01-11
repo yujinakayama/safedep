@@ -26,16 +26,17 @@ module Safedep
       fail NotImplementedError
     end
 
-    def version_specifier
-      return nil unless version_specifier_node
-      version_specifier_node.children.first
+    def version_specifiers
+      @version_specifiers ||= literal_values(version_nodes)
     end
 
-    def version_specifier=(version_specifier)
-      if version_specifier_node
-        rewriter.replace(content_range_of_str_node(version_specifier_node), version_specifier)
+    def version_specifiers=(*specifiers)
+      source = specifiers.flatten.map { |specifier| "'#{specifier}'" }.join(', ')
+
+      if version_nodes.empty?
+        rewriter.insert_after(name_node.loc.expression, ", #{source}")
       else
-        rewriter.insert_after(name_node.loc.expression, ", '#{version_specifier}'")
+        rewriter.replace(version_range, source)
       end
     end
 
@@ -49,15 +50,16 @@ module Safedep
       node.children[2]
     end
 
-    def version_specifier_node
-      return @version_specifier_node if instance_variable_defined?(:@version_specifier_node)
-      version_node = node.children[3]
-      return @version_specifier_node = nil if version_node.nil? || !version_node.str_type?
-      @version_specifier_node = version_node
+    def trailing_nodes
+      node.children[3..-1]
     end
 
-    def options_node
-      node.children[3..-1].find(&:hash_type?)
+    def version_nodes
+      fail NotImplementedError
+    end
+
+    def version_range
+      version_nodes.first.loc.expression.join(version_nodes.last.loc.expression)
     end
 
     def content_range_of_str_node(str_node)

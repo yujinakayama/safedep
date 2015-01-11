@@ -1,8 +1,11 @@
 require 'safedep/abstract_dependency'
+require 'safedep/util'
 
 module Safedep
   class Gemspec
     class Dependency < AbstractDependency
+      include Util
+
       METHOD_NAMES = [:add_runtime_dependency, :add_development_dependency, :add_dependency].freeze
 
       def self.method_names
@@ -16,6 +19,20 @@ module Safedep
         else
           []
         end
+      end
+
+      def version_specifiers
+        @version_specifiers ||= begin
+          str_nodes = version_nodes.map { |node| node.each_node(:str).to_a }.flatten
+          literal_values(str_nodes)
+        end
+      end
+
+      private
+
+      # https://github.com/rubygems/rubygems/blob/v2.4.5/lib/rubygems/specification.rb#L449-L473
+      def version_nodes
+        trailing_nodes
       end
     end
   end

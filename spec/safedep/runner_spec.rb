@@ -83,7 +83,7 @@ module Safedep
 
       it 'does not modify dependencies that belong to any of the groups' do
         development_dependencies.each do |dep|
-          expect(dep).not_to receive(:version_specifier=)
+          expect(dep).not_to receive(:version_specifiers=)
         end
 
         runner.run
