@@ -42,6 +42,10 @@ module Safedep
       end
     end
 
+    def options
+      {}
+    end
+
     private
 
     def method_name

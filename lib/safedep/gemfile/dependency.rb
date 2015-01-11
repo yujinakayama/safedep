@@ -17,11 +17,11 @@ module Safedep
         @groups ||= (groups_via_block + groups_via_option).map(&:to_sym)
       end
 
-      private
-
       def options
         @options ||= symbolize_keys(Literal.value(options_node) || {})
       end
+
+      private
 
       def groups_via_block
         return [] unless group_node

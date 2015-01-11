@@ -2,6 +2,8 @@
 
 ## Development
 
+* Skip modification of dependencies that have `:git`, `:github` or `:path` option.
+
 ## v0.1.2
 
 * Handle error raised when dependency definition is not found in `Gemfile.lock`.

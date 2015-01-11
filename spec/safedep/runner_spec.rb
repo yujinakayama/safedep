@@ -89,5 +89,50 @@ module Safedep
         runner.run
       end
     end
+
+    context 'when a dependency has :git option', :gemfile, :lockfile do
+      let(:gemfile_source) { <<-END.strip_indent }
+        source 'https://rubygems.org'
+
+        group :development, :test do
+          gem 'rubocop', git: 'https://github.com/bbatsov/rubocop.git'
+        end
+      END
+
+      it 'does not add version specifiers to the dependency' do
+        runner.run
+        expect(rewritten_gemfile_source).to eq(gemfile_source)
+      end
+    end
+
+    context 'when a dependency has :github option', :gemfile, :lockfile do
+      let(:gemfile_source) { <<-END.strip_indent }
+        source 'https://rubygems.org'
+
+        group :development, :test do
+          gem 'rubocop', github: 'bbatsov/rubocop.git'
+        end
+      END
+
+      it 'does not add version specifiers to the dependency' do
+        runner.run
+        expect(rewritten_gemfile_source).to eq(gemfile_source)
+      end
+    end
+
+    context 'when a dependency has :path option', :gemfile, :lockfile do
+      let(:gemfile_source) { <<-END.strip_indent }
+        source 'https://rubygems.org'
+
+        group :development, :test do
+          gem 'rubocop', path: '../rubocop'
+        end
+      END
+
+      it 'does not add version specifiers to the dependency' do
+        runner.run
+        expect(rewritten_gemfile_source).to eq(gemfile_source)
+      end
+    end
   end
 end

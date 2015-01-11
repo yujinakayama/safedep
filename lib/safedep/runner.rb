@@ -74,7 +74,8 @@ module Safedep
 
     def should_ignore?(dependency)
       return true unless dependency.version_specifiers.empty?
-      !(dependency.groups & configuration.skipped_groups).empty?
+      return true unless (dependency.groups & configuration.skipped_groups).empty?
+      [:git, :github, :path].any? { |key| dependency.options[key] }
     end
 
     def version_specifiers(version)
