@@ -1,10 +1,11 @@
 require 'safedep/abstract_dependency'
+require 'safedep/util'
 require 'astrolabe/sexp'
 
 module Safedep
   class Gemfile
     class Dependency < AbstractDependency
-      include Astrolabe::Sexp
+      include Util, Astrolabe::Sexp
 
       METHOD_NAMES = [:gem].freeze
 
@@ -19,8 +20,7 @@ module Safedep
       def groups_via_block
         return [] unless group_node
         _receiver_node, _message, *arg_nodes = *group_node
-        literal_nodes = arg_nodes.select { |arg_node| arg_node.sym_type? || arg_node.str_type? }
-        literal_nodes.map { |literal_node| literal_node.children.first }
+        literal_values(arg_nodes, coerce: :symbol)
       end
 
       def groups_via_option
@@ -33,10 +33,9 @@ module Safedep
 
           case value_node.type
           when :sym
-            return [value_node.children.first]
+            return literal_values(value_node, coerce: :symbol)
           when :array
-            literal_nodes = value_node.each_child_node(:sym, :str)
-            return literal_nodes.map { |literal_node| literal_node.children.first }
+            return literal_values(value_node.children, coerce: :symbol)
           else
             return []
           end
