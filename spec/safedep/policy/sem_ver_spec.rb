@@ -12,9 +12,9 @@ module Safedep
           ['1.2',         ['~> 1.2']],
           ['1',           ['~> 1.0']],
           ['1.2.1.beta1', ['~> 1.2']],
-          ['1.2.0.beta1', nil], # TODO
-          ['1.2.beta1',   nil], # TODO
-          ['1.beta1',     nil], # TODO
+          ['1.2.0.beta1', ['>= 1.2.0.beta1', '< 2']],
+          ['1.2.beta1',   ['>= 1.2.beta1', '< 2']],
+          ['1.beta1',     ['>= 1.beta1', '< 2']]
         ].each do |version_string, specifiers|
           context "with #{version_string}" do
             let(:version) { Gem::Version.new(version_string) }

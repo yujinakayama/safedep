@@ -18,14 +18,13 @@ module Safedep
       end
 
       def version_specifiers
-        specifier = '~> ' + [major, minor].join('.')
-        requirement = Gem::Requirement.new(specifier)
+        specifiers = ['~> ' + [major, minor].join('.')]
+        return specifiers if satisfy_specifiers?(specifiers)
 
-        if requirement.satisfied_by?(version)
-          [specifier]
-        else
-          nil
-        end
+        specifiers = [">= #{version}", "< #{major.to_i + 1}"]
+        return specifiers if satisfy_specifiers?(specifiers)
+
+        nil
       end
 
       private
@@ -42,6 +41,11 @@ module Safedep
         end
 
         @suffix = elements.shift if elements.first && !elements.first.match(/^\d+$/)
+      end
+
+      def satisfy_specifiers?(specifiers)
+        requirement = Gem::Requirement.new(*specifiers)
+        requirement.satisfied_by?(version)
       end
     end
   end
