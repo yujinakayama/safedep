@@ -19,31 +19,18 @@ module Safedep
 
       private
 
+      def options
+        @options ||= symbolize_keys(Literal.value(options_node) || {})
+      end
+
       def groups_via_block
         return [] unless group_node
         _receiver_node, _message, *arg_nodes = *group_node
-        literal_values(arg_nodes, coerce: :symbol)
+        arg_nodes.map { |node| Literal.value(node) }
       end
 
       def groups_via_option
-        return [] unless options_node
-
-        options_node.each_child_node do |pair_node|
-          key_node, value_node = *pair_node
-
-          next unless key_node == s(:sym, :group)
-
-          case value_node.type
-          when :sym
-            return literal_values(value_node, coerce: :symbol)
-          when :array
-            return literal_values(value_node.children, coerce: :symbol)
-          else
-            return []
-          end
-        end
-
-        []
+        Array(options[:group])
       end
 
       # https://github.com/bundler/bundler/blob/v1.7.11/lib/bundler/dsl.rb#L68-L70

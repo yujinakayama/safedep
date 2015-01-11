@@ -51,7 +51,7 @@ module Safedep
             gem 'fuubar'
           end
 
-          gem 'rspec', group: [:test, :development]
+          gem 'rspec', 'group' => [:test, :development]
         END
 
         context 'when the dependency is specified in top level' do

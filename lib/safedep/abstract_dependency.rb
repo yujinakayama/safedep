@@ -1,3 +1,5 @@
+require 'safedep/literal'
+
 module Safedep
   class AbstractDependency
     attr_reader :node, :rewriter
@@ -27,7 +29,7 @@ module Safedep
     end
 
     def version_specifiers
-      @version_specifiers ||= literal_values(version_nodes)
+      @version_specifiers ||= version_nodes.map { |node| Literal.value(node) }.flatten
     end
 
     def version_specifiers=(*specifiers)
