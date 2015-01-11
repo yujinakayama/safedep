@@ -2,7 +2,10 @@
 
 ## Development
 
+## v0.2.0
+
 * Skip modification of dependencies that have `:git`, `:github` or `:path` option.
+* Handle depdendencies with prerelease version.
 
 ## v0.1.2
 
