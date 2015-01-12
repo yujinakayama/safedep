@@ -67,14 +67,5 @@ module Safedep
     def version_range
       version_nodes.first.loc.expression.join(version_nodes.last.loc.expression)
     end
-
-    def content_range_of_str_node(str_node)
-      map = str_node.loc
-      Parser::Source::Range.new(
-        map.expression.source_buffer,
-        map.begin.end_pos,
-        map.end.begin_pos
-      )
-    end
   end
 end
