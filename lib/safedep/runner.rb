@@ -57,19 +57,23 @@ module Safedep
 
     def gemfile
       @gemfile ||= begin
-        fail Error, "#{GEMFILE_PATH} is not found." unless File.exist?(GEMFILE_PATH)
+        check_file_existence!(GEMFILE_PATH)
         Gemfile.new(GEMFILE_PATH)
       end
     end
 
     def gemfile_lock
       @gemfile_lock ||= begin
-        unless File.exist?(GEMFILE_LOCK_PATH)
-          fail Error, "#{GEMFILE_LOCK_PATH} is not found. Please run `bundle install`."
-        end
-
+        check_file_existence!(GEMFILE_LOCK_PATH, 'Please run `bundle install`.')
         GemfileLock.new(GEMFILE_LOCK_PATH)
       end
+    end
+
+    def check_file_existence!(path, additional_message = nil)
+      return if File.exist?(path)
+      message = "#{path} is not found."
+      message << ' ' + additional_message if additional_message
+      fail Error, message
     end
 
     def should_ignore?(dependency)
