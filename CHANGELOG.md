@@ -2,6 +2,8 @@
 
 ## Development
 
+* Use extracted core gem [gemologist](https://github.com/yujinakayama/gemologist) internally.
+
 ## v0.2.0
 
 * Skip modification of dependencies that have `:git`, `:github` or `:path` option.

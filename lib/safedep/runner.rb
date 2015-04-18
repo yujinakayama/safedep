@@ -1,9 +1,7 @@
 require 'safedep/configuration'
-require 'safedep/gemspec'
-require 'safedep/gemfile'
-require 'safedep/gemfile_lock'
 require 'safedep/policy/sem_ver'
 require 'safedep/error'
+require 'gemologist'
 
 module Safedep
   class Runner
@@ -51,21 +49,21 @@ module Safedep
     def gemspec
       @gemspec ||= begin
         path = Dir['*.gemspec'].first
-        Gemspec.new(path) if path
+        Gemologist::Gemspec.new(path) if path
       end
     end
 
     def gemfile
       @gemfile ||= begin
         check_file_existence!(GEMFILE_PATH)
-        Gemfile.new(GEMFILE_PATH)
+        Gemologist::Gemfile.new(GEMFILE_PATH)
       end
     end
 
     def gemfile_lock
       @gemfile_lock ||= begin
         check_file_existence!(GEMFILE_LOCK_PATH, 'Please run `bundle install`.')
-        GemfileLock.new(GEMFILE_LOCK_PATH)
+        Gemologist::GemfileLock.new(GEMFILE_LOCK_PATH)
       end
     end
 

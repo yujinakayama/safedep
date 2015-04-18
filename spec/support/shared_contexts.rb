@@ -12,9 +12,9 @@ end
 
 shared_context 'with gemspec', :gemspec do
   let!(:gemspec) do
-    require 'safedep/gemspec'
+    require 'gemologist/gemspec'
     create_file(gemspec_path, gemspec_source)
-    Safedep::Gemspec.new(gemspec_path)
+    Gemologist::Gemspec.new(gemspec_path)
   end
 
   let(:gemspec_path) { 'safedep.gemspec' }
@@ -32,9 +32,9 @@ end
 
 shared_context 'with Gemfile', :gemfile do
   let!(:gemfile) do
-    require 'safedep/gemfile'
+    require 'gemologist/gemfile'
     create_file(gemfile_path, gemfile_source)
-    Safedep::Gemfile.new(gemfile_path)
+    Gemologist::Gemfile.new(gemfile_path)
   end
 
   let(:gemfile_path) { 'Gemfile' }
@@ -56,9 +56,9 @@ end
 
 shared_context 'with Gemfile.lock', :lockfile do
   let!(:lockfile) do
-    require 'safedep/gemfile_lock'
+    require 'gemologist/gemfile_lock'
     create_file(lockfile_path, lockfile_source)
-    Safedep::GemfileLock.new(lockfile_path)
+    Gemologist::GemfileLock.new(lockfile_path)
   end
 
   let(:lockfile_path) { 'Gemfile.lock' }

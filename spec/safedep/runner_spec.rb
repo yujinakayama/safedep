@@ -60,9 +60,9 @@ module Safedep
 
     context 'when a dependency specified in Gemfile does not exist in Gemfile.lock', :gemfile, :lockfile do
       let!(:lockfile) do
-        require 'safedep/gemfile_lock'
+        require 'gemologist/gemfile_lock'
         create_file(lockfile_path, invalid_lockfile_source)
-        Safedep::GemfileLock.new(lockfile_path)
+        Gemologist::GemfileLock.new(lockfile_path)
       end
 
       let(:invalid_lockfile_source) { lockfile_source.gsub(/.*rspec.*\n/, '') }
