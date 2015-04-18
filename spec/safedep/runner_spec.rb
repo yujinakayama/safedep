@@ -72,6 +72,27 @@ module Safedep
       end
     end
 
+    context 'when bundler dependency is specified in gemspec', :gemfile, :lockfile do
+      let!(:gemspec) do
+        require 'gemologist/gemspec'
+        create_file(gemspec_path, gemspec_source)
+        Gemologist::Gemspec.new(gemspec_path)
+      end
+
+      let(:gemspec_path) { 'safedep.gemspec' }
+
+      let(:gemspec_source) { <<-END.strip_indent }
+        Gem::Specification.new do |spec|
+          spec.name = 'safedep'
+          spec.add_runtime_dependency 'bundler'
+        end
+      END
+
+      it 'does not raise error' do
+        expect { runner.run }.not_to raise_error
+      end
+    end
+
     context 'when Configuration#skipped_groups is specified', :gemspec, :gemfile, :lockfile do
       before do
         configuration.skipped_groups = ['development']

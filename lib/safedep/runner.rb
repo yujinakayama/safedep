@@ -1,6 +1,7 @@
 require 'safedep/configuration'
-require 'safedep/policy/sem_ver'
 require 'safedep/error'
+require 'safedep/gemfile_lock'
+require 'safedep/policy/sem_ver'
 require 'gemologist'
 
 module Safedep
@@ -63,7 +64,7 @@ module Safedep
     def gemfile_lock
       @gemfile_lock ||= begin
         check_file_existence!(GEMFILE_LOCK_PATH, 'Please run `bundle install`.')
-        Gemologist::GemfileLock.new(GEMFILE_LOCK_PATH)
+        Safedep::GemfileLock.new(GEMFILE_LOCK_PATH)
       end
     end
 
