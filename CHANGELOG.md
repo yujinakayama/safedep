@@ -2,6 +2,8 @@
 
 ## Development
 
+## v0.3.1
+
 * Handle deprecated `Gemologist::AbstractGemfile#rewrite!`.
 
 ## v0.3.0
