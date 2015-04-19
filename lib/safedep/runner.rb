@@ -31,7 +31,7 @@ module Safedep
         dep.version_specifiers = version_specifiers(lockfile_dep.version)
       end
 
-      gemfiles.each(&:rewrite!)
+      gemfiles.each(&:save)
     end
 
     def validate!

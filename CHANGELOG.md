@@ -2,6 +2,10 @@
 
 ## Development
 
+* Handle deprecated `Gemologist::AbstractGemfile#rewrite!`.
+
+## v0.3.0
+
 * Use extracted core gem [gemologist](https://github.com/yujinakayama/gemologist) internally.
 
 ## v0.2.0
