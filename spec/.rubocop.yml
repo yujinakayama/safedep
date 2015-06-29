@@ -6,7 +6,7 @@ LineLength:
   Max: 120
 
 # raise_error matcher always requires {} form block.
-Blocks:
+BlockDelimiters:
   Enabled: false
 
 # Sometimes block alignment does not suit RSpec syntax.
@@ -15,4 +15,7 @@ BlockAlignment:
 
 # Suppress offences for namespace classes only with #describe.
 ClassLength:
+  Enabled: false
+
+ModuleLength:
   Enabled: false
