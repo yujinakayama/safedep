@@ -2,6 +2,8 @@
 
 ## Development
 
+## v0.3.2
+
 * Fix error `cannot load such file -- astrolabe/builder (LoadError)`.
 
 ## v0.3.1
