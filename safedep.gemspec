@@ -20,5 +20,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'bundler', '~> 1.7'
-  spec.add_runtime_dependency 'gemologist', '~> 0.2'
+  spec.add_runtime_dependency 'gemologist', '>= 0.2.1', '< 1.0'
 end

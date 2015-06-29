@@ -2,6 +2,8 @@
 
 ## Development
 
+* Fix error `cannot load such file -- astrolabe/builder (LoadError)`.
+
 ## v0.3.1
 
 * Handle deprecated `Gemologist::AbstractGemfile#rewrite!`.
