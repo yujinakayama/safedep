@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development, :test do
-  gem 'rake', '~> 10.4'
+  gem 'rake', '~> 11.1'
   gem 'rspec', '~> 3.1'
   gem 'rubocop', '~> 0.28'
   gem 'powerpack', '~> 0.0'
