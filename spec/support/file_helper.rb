@@ -15,7 +15,7 @@ module FileHelper
       when Array
         file.puts content.join("\n")
       else
-        fail 'Unsupported type!'
+        raise 'Unsupported type!'
       end
     end
   end

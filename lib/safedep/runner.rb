@@ -24,7 +24,7 @@ module Safedep
         lockfile_dep = gemfile_lock.find_dependency(dep.name)
 
         unless lockfile_dep
-          fail Error, "#{dep.name.inspect} definition is not found in #{gemfile_lock.path}. " \
+          raise Error, "#{dep.name.inspect} definition is not found in #{gemfile_lock.path}. " \
                       'Please run `bundle install`.'
         end
 
@@ -72,7 +72,7 @@ module Safedep
       return if File.exist?(path)
       message = "#{path} is not found."
       message << ' ' + additional_message if additional_message
-      fail Error, message
+      raise Error, message
     end
 
     def should_ignore?(dependency)
