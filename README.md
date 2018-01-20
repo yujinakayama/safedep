@@ -1,8 +1,8 @@
-[![Gem Version](http://img.shields.io/gem/v/safedep.svg?style=flat)](http://badge.fury.io/rb/safedep)
-[![Dependency Status](http://img.shields.io/gemnasium/yujinakayama/safedep.svg?style=flat)](https://gemnasium.com/yujinakayama/safedep)
+[![Gem Version](https://badge.fury.io/rb/safedep.svg)](http://badge.fury.io/rb/safedep)
+[![Dependency Status](https://gemnasium.com/yujinakayama/safedep.svg)](https://gemnasium.com/yujinakayama/safedep)
 [![Build Status](https://travis-ci.org/yujinakayama/safedep.svg?branch=master&style=flat)](https://travis-ci.org/yujinakayama/safedep)
-[![Coverage Status](http://img.shields.io/coveralls/yujinakayama/safedep/master.svg?style=flat)](https://coveralls.io/r/yujinakayama/safedep)
-[![Code Climate](https://img.shields.io/codeclimate/github/yujinakayama/safedep.svg?style=flat)](https://codeclimate.com/github/yujinakayama/safedep)
+[![Coverage Status](https://coveralls.io/repos/yujinakayama/safedep/badge.svg?branch=master&service=github)](https://coveralls.io/github/yujinakayama/safedep?branch=master)
+[![Code Climate](https://codeclimate.com/github/yujinakayama/safedep/badges/gpa.svg)](https://codeclimate.com/github/yujinakayama/safedep)
 
 # Safedep
 
