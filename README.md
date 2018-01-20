@@ -91,7 +91,7 @@ $ safedep --without development,test
 
 ## Compatibility
 
-Tested on MRI 1.9.3, 2.0, 2.1, 2.2, 2.3 and JRuby in 1.9 mode.
+Tested on MRI 2.2, 2.3, 2.4, 2.5 and JRuby 9000.
 
 ## License
 
