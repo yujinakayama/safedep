@@ -32,7 +32,7 @@ module Safedep
       def decompose_version
         elements =  version.to_s.split('.')
 
-        [:major, :minor, :patch].each do |role|
+        %i[major minor patch].each do |role|
           if elements.first && elements.first.match(/^\d+$/)
             instance_variable_set("@#{role}", elements.shift)
           else

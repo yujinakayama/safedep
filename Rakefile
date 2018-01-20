@@ -9,4 +9,4 @@ end
 
 RuboCop::RakeTask.new(:style)
 
-task ci: [:spec, :style]
+task ci: %i[spec style]
